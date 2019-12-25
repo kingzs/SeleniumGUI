@@ -31,9 +31,9 @@ public class Tools {
 			if(update){
 				Domain.getTree().updateUI();
 			}
-			Domain.getTree().setSelectionPath(new TreePath(node.getPath()));
 			Domain.setNode(node);
 		}
+		Domain.getTree().setSelectionPath(new TreePath(node.getPath()));
 		
 		Domain.getCenter().removeAll();
 		switch(node.getKingType()){

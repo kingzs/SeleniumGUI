@@ -186,7 +186,7 @@ public class TestStepConf extends JPanel {
 					String[] followNames = classLoader.getFollowNames(value);
 					for(int i=0, len=follows.length; i<len; ++i){
 						if(reset){
-							sd.addFindParam("");
+							sd.addFollowParam("");
 						}
 						ParameterJPanel jp = getParameterJPanel(followNames[i], sd.getFollowParams(), i);
 						followParameterJPanel.add(jp);
@@ -228,9 +228,9 @@ public class TestStepConf extends JPanel {
 	//重置页面的数据，即在界面上点击了别的测试步骤，需要重置这个页面的数据
 	public TestStepConf resetData(){
 		change = false;
+		reset = false;
 		sd = (StepData) Domain.getNode().getData();
 		setStepName(sd.getName());
-		reset = false;
 		if(sd.getFindType() == null){
 			String value = classLoader.getKeys()[0];
 			sd.setFindType(value);

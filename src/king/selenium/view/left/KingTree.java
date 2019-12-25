@@ -182,6 +182,7 @@ class KingDropTargetListener implements DropTargetListener{
         	if(Domain.getMoveNode() != null){
         		Domain.getBorderNode().setMoveStatus(false);
         		Domain.setMoveNode(null);
+        		Domain.setBorderNode(null);
         		targetTree.updateUI();
         	}
         }else{
@@ -250,10 +251,12 @@ class KingDropTargetListener implements DropTargetListener{
 			parent.insert(node, index+1);
 			parent.getData().addData(index+1, data);
 		}
+		Tools.setCurrentNode(node);
 
 		Domain.setChangeFile(true);
 		Domain.getBorderNode().setMoveStatus(false);
 		Domain.setMoveNode(null);
+		Domain.setBorderNode(null);
 		Domain.getTree().updateUI();
 	}
  

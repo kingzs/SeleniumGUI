@@ -84,6 +84,7 @@ public class Start {
 		}, AWTEvent.KEY_EVENT_MASK);
 		
 		initFrame(frame, 1000, 800);
+		Domain.setChangeFile(false);
 		//在脚本运行的过程中，动态的更新结果树的UI,跨线程操作的解决方式
 		while(true){
 			synchronized(Domain.getResultTree()){

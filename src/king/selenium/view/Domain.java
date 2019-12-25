@@ -116,7 +116,6 @@ public class Domain {
 		resultNodeHandlers = new LinkedList<>();
 		planRunThread.start();
 		resultTreeTask = new ResultTreeTask();
-		changeFile = false;
 	}
 	
 	public static SimpleDateFormat getSimpleDateFormat(){
