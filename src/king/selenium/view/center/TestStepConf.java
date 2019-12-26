@@ -31,13 +31,10 @@ import king.selenium.view.Domain;
 public class TestStepConf extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField nameText;//测试用例名称
-	private JComboBox<String> elementSelectType;//查找元素方法选择的下拉框
+	private JTextField nameText;//测试步骤名称输入框
+	private JComboBox<String> elementSelectType;//查找元素方法的下拉框
 	private JTextField timeField;//查找元素超时输入框
 	private JPanel elementSelectParameterJPanel;//存放输入参数组件的父pane
-	//当选取元素的下拉框选项改变了，是用户操作下拉框更改的，
-	//还是切换了测试步骤产生的改变，通过这个变量来判断，
-	//同样的，后续操作、操作都是用这个变量来判断
 	//参数组件池，用于复用参数组件
 	private LinkedList<ParameterJPanel> parameterJPanelPool = new LinkedList<>();
 	private JComboBox<String> followOperator;//后续操作的下拉选择框
@@ -47,7 +44,10 @@ public class TestStepConf extends JPanel {
 //	private JComboBox<String> saveVariableType;//保存数据方式的下拉选择框
 	private KingClassLoader classLoader;//自定义类加载器，需要从里面拿数据
 	private StepData sd;//测试步骤数据
-	private boolean change = true;//是否监听改变
+	//是否监听改变，由于这个页面，在程序中是单例的，配置不同的测试步骤，使用的是同一个页面
+	//在测试步骤间切换，页面也发生改变，但脚本没有进行改动，这个时候就不能监听改变
+	//如果是用户操作，使脚本发生改变，就要监听改变
+	private boolean change = true;
 
 	public TestStepConf(KingClassLoader classLoader){
 		this.classLoader = classLoader;
