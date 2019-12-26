@@ -38,7 +38,6 @@ public class TestStepConf extends JPanel {
 	//当选取元素的下拉框选项改变了，是用户操作下拉框更改的，
 	//还是切换了测试步骤产生的改变，通过这个变量来判断，
 	//同样的，后续操作、操作都是用这个变量来判断
-	private boolean reset = true;
 	//参数组件池，用于复用参数组件
 	private LinkedList<ParameterJPanel> parameterJPanelPool = new LinkedList<>();
 	private JComboBox<String> followOperator;//后续操作的下拉选择框
@@ -48,7 +47,7 @@ public class TestStepConf extends JPanel {
 //	private JComboBox<String> saveVariableType;//保存数据方式的下拉选择框
 	private KingClassLoader classLoader;//自定义类加载器，需要从里面拿数据
 	private StepData sd;//测试步骤数据
-	private boolean change = true;
+	private boolean change = true;//是否监听改变
 
 	public TestStepConf(KingClassLoader classLoader){
 		this.classLoader = classLoader;
@@ -137,20 +136,19 @@ public class TestStepConf extends JPanel {
 					backParameterJPanel(elementSelectParameterJPanel);
 					String value = (String) elementSelectType.getSelectedItem();
 					sd.setFindType(value);
-					if(reset){
+					if(change){
 						sd.removeAllFindParams();
 						Domain.setChangeFile(true);
 					}
 					Parameter[] keys = classLoader.getKeyParameter(value);
 					String[] keyNames = classLoader.getKeyNames(value);
 					for(int i=0,len=keys.length; i<len; ++i){
-						if(reset){
+						if(change){
 							sd.addFindParam("");
 						}
 						ParameterJPanel jp = getParameterJPanel(keyNames[i], sd.getFindParams(), i);
 						elementSelectParameterJPanel.add(jp);
 					}
-					if(change) Domain.setChangeFile(true);
 					elementSelectParameterJPanel.updateUI();
 				}	
 			}	
@@ -178,20 +176,19 @@ public class TestStepConf extends JPanel {
 					backParameterJPanel(followParameterJPanel);
 					String value = (String)followOperator.getSelectedItem();
 					sd.setFollowType(value);
-					if(reset){
+					if(change){
 						sd.removeAllFollowParam();
 						Domain.setChangeFile(true);
 					}
 					Parameter[] follows = classLoader.getFollowParameter(value);
 					String[] followNames = classLoader.getFollowNames(value);
 					for(int i=0, len=follows.length; i<len; ++i){
-						if(reset){
+						if(change){
 							sd.addFollowParam("");
 						}
 						ParameterJPanel jp = getParameterJPanel(followNames[i], sd.getFollowParams(), i);
 						followParameterJPanel.add(jp);
 					}
-					if(change) Domain.setChangeFile(true);
 					followParameterJPanel.updateUI();
 				}
 			}	
@@ -205,20 +202,19 @@ public class TestStepConf extends JPanel {
 					backParameterJPanel(actionParameterJPanel);
 					String value = (String)actionType.getSelectedItem();
 					sd.setActionType(value);
-					if(reset){
+					if(change){
 						sd.removeAllActionParams();
 						Domain.setChangeFile(true);
 					}
 					Parameter[] operates = classLoader.getOperationParameter(value);
 					String[] operateNames = classLoader.getOperationNames(value);
 					for(int i=0, len=operates.length; i<len; ++i){
-						if(reset){
+						if(change){
 							sd.addActionParam("");
 						}
 						ParameterJPanel jp = getParameterJPanel(operateNames[i], sd.getActionParams(), i);
 						actionParameterJPanel.add(jp);
 					}
-					if(change) Domain.setChangeFile(true);
 					actionParameterJPanel.updateUI();
 				}
 			}	
@@ -228,7 +224,6 @@ public class TestStepConf extends JPanel {
 	//重置页面的数据，即在界面上点击了别的测试步骤，需要重置这个页面的数据
 	public TestStepConf resetData(){
 		change = false;
-		reset = false;
 		sd = (StepData) Domain.getNode().getData();
 		setStepName(sd.getName());
 		if(sd.getFindType() == null){
@@ -287,7 +282,6 @@ public class TestStepConf extends JPanel {
 		resetDatas(actionParameterJPanel, sd.getActionParams());
 		
 		updateUI();
-		reset = true;
 		change = true;
 		return this;
 	}
